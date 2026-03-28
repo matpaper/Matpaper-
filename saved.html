@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saved Wallpapers — MATPAPER</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" onerror="this.style.display='none'">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"><i class="fas fa-house"></i> Home</a>
+    <a href="category.html?cat=anime"><i class="fas fa-images"></i> Browse</a>
+    <a href="saved.html" class="active"><i class="fas fa-heart"></i> Saved</a>
+    <div class="sidebar-divider"></div>
+    <a href="about.html"><i class="fas fa-circle-info"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="location.href='index.html'" title="Home"><i class="fas fa-house"></i></button>
+  </div>
+</header>
+<div class="page-wrap">
+<style>
+.saved-page{max-width:800px;margin:0 auto;padding:24px 16px 80px;}
+.saved-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.saved-title{font-family:'Audiowide',sans-serif;font-size:20px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.saved-count{font-size:13px;color:#8b7aa0;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
+.tabs{display:flex;gap:8px;margin-bottom:20px;}
+.tab-btn{padding:8px 18px;border-radius:50px;border:1px solid rgba(124,58,237,0.3);background:none;color:#8b7aa0;font-size:13px;font-weight:600;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;}
+.tab-btn.active{background:rgba(124,58,237,0.15);border-color:rgba(124,58,237,0.5);color:#c084fc;}
+.saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.saved-item{position:relative;border-radius:14px;overflow:hidden;background:#1a003a;border:1px solid rgba(124,58,237,0.2);cursor:pointer;transition:border-color 0.2s;}
+.saved-item:hover{border-color:rgba(124,58,237,0.5);}
+.saved-item img{width:100%;height:180px;object-fit:cover;display:block;}
+.saved-item-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(7,0,15,0.9));padding:10px 10px 10px;}
+.saved-item-title{font-size:12px;font-weight:600;color:#f0e6ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.saved-item-remove{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(229,62,62,0.8);border:none;color:white;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity 0.2s;}
+.saved-item:hover .saved-item-remove{opacity:1;}
+.empty-state{text-align:center;padding:60px 20px;color:#8b7aa0;}
+.empty-state i{font-size:48px;display:block;margin-bottom:16px;color:#4a3a5a;}
+.empty-state h3{font-size:18px;font-weight:600;color:#c084fc;margin-bottom:8px;}
+.empty-state p{font-size:14px;line-height:1.6;margin-bottom:24px;}
+.empty-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#7c3aed,#5b21b6);border:none;border-radius:12px;color:white;font-size:14px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;}
+.clear-btn{padding:8px 16px;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:10px;color:#fc8181;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.clear-btn:hover{background:rgba(229,62,62,0.2);}
+.section-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8b7aa0;margin-bottom:14px;}
+</style>
+
+<div class="saved-page">
+  <div class="saved-hdr">
+    <div>
+      <div class="saved-title">My Collection</div>
+      <div class="saved-count" id="savedCount">Loading...</div>
+    </div>
+    <button class="clear-btn" onclick="clearAll()" id="clearBtn" style="display:none;"><i class="fas fa-trash"></i> Clear All</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('saved',this)"><i class="fas fa-bookmark"></i> Saved</button>
+    <button class="tab-btn" onclick="switchTab('liked',this)"><i class="fas fa-heart"></i> Liked</button>
+    <button class="tab-btn" onclick="switchTab('recent',this)"><i class="fas fa-clock"></i> Recently Viewed</button>
+  </div>
+
+  <div id="gridContainer">
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <i class="fas fa-bookmark"></i>
+      <h3>Nothing saved yet</h3>
+      <p>Tap the bookmark icon on any wallpaper to save it here for later.</p>
+      <a href="index.html" class="empty-btn"><i class="fas fa-images"></i> Browse Wallpapers</a>
+    </div>
+    <div class="saved-grid" id="savedGrid"></div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">MATPAPER</div>
+    <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+    <a href="dmca.html">DMCA</a>
+  </div>
+</footer>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+<script src="db.js"></script>
+<script>
+var currentTab = 'saved';
+
+function openSidebar(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');document.body.style.overflow='';}
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderTab();
+}
+
+function getIds(tab) {
+  if (tab === 'saved')  return Array.from(JSON.parse(localStorage.getItem('mp_saved')||'[]'));
+  if (tab === 'liked')  return Array.from(JSON.parse(localStorage.getItem('mp_liked')||'[]'));
+  if (tab === 'recent') return JSON.parse(localStorage.getItem('mp_recent')||'[]');
+  return [];
+}
+
+async function renderTab() {
+  var ids = getIds(currentTab);
+  var grid = document.getElementById('savedGrid');
+  var empty = document.getElementById('emptyState');
+  var count = document.getElementById('savedCount');
+  var clearBtn = document.getElementById('clearBtn');
+
+  var icons = {saved:'bookmark',liked:'heart',recent:'clock'};
+  var labels = {saved:'saved wallpaper',liked:'liked wallpaper',recent:'recently viewed'};
+
+  count.textContent = ids.length + ' ' + labels[currentTab] + (ids.length !== 1 ? 's' : '');
+
+  if (!ids.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    empty.querySelector('i').className = 'fas fa-' + icons[currentTab];
+    empty.querySelector('h3').textContent = currentTab === 'recent' ? 'No recent views' : 'Nothing ' + currentTab + ' yet';
+    clearBtn.style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  clearBtn.style.display = 'block';
+  grid.innerHTML = '<div style="grid-column:1/-1;color:#8b7aa0;font-size:13px;font-family:Barlow Condensed,sans-serif;letter-spacing:1px;padding:10px 0;">Loading...</div>';
+
+  try {
+    var docs = await Promise.all(ids.slice(0,40).map(function(id){return DB.getWallpaper(id).catch(function(){return null;});}));
+    docs = docs.filter(Boolean);
+    grid.innerHTML = '';
+    if (!docs.length) { empty.style.display='block'; clearBtn.style.display='none'; return; }
+    docs.forEach(function(doc) { grid.appendChild(makeCard(doc)); });
+  } catch(e) {
+    grid.innerHTML = '<div style="grid-column:1/-1;color:#8b7aa0;text-align:center;padding:20px;">Could not load wallpapers. Check your connection.</div>';
+  }
+}
+
+function makeCard(doc) {
+  var id = doc.$id;
+  var title = doc.Title || 'Wallpaper';
+  var cat = doc.Category || 'anime';
+  var res = doc.Resolution || '4K';
+  var imgSrc = doc.Cloudinary_url
+    ? 'https://res.cloudinary.com/dd0zzul9w/image/upload/w_300,h_400,c_fill,q_auto,f_auto/' + doc.Cloudinary_url
+    : 'https://picsum.photos/seed/' + id + '/300/400';
+
+  var item = document.createElement('div');
+  item.className = 'saved-item';
+  item.innerHTML =
+    '<img src="'+imgSrc+'" alt="'+title+'" loading="lazy">' +
+    '<div class="saved-item-overlay"><div class="saved-item-title">'+title+'</div></div>' +
+    '<button class="saved-item-remove" onclick="removeItem(event,\''+id+'\')"><i class="fas fa-times"></i></button>';
+  item.addEventListener('click', function() {
+    location.href = 'wallpaper.html?id='+id+'&cat='+cat+'&title='+encodeURIComponent(title)+'&res='+res;
+  });
+  return item;
+}
+
+function removeItem(e, id) {
+  e.stopPropagation();
+  var key = currentTab === 'saved' ? 'mp_saved' : currentTab === 'liked' ? 'mp_liked' : 'mp_recent';
+  var data = JSON.parse(localStorage.getItem(key)||'[]');
+  if (Array.isArray(data)) {
+    data = data.filter(function(i){return i!==id;});
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+  renderTab();
+  toast('Removed from collection','fa-trash');
+}
+
+function clearAll() {
+  if (!confirm('Clear all ' + currentTab + ' wallpapers?')) return;
+  var key = currentTab === 'saved' ? 'mp_saved' : currentTab === 'liked' ? 'mp_liked' : 'mp_recent';
+  localStorage.removeItem(key);
+  renderTab();
+  toast('Cleared','fa-trash');
+}
+
+function toast(msg, icon) {
+  var c = document.getElementById('toastContainer');
+  var t = document.createElement('div'); t.className='toast';
+  t.innerHTML='<i class="fas '+(icon||'fa-check')+'"></i> '+msg;
+  c.appendChild(t);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('show');});});
+  setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},350);},2800);
+}
+
+window.addEventListener('scroll',function(){
+  var btn=document.getElementById('backTop');
+  if(btn)btn.classList.toggle('visible',window.scrollY>300);
+});
+
+renderTab();
+</script>
+</body>
+</html>

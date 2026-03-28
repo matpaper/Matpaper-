@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATPAPER — Anime Wallpapers 4K | Free Download</title>
+<meta name="description" content="Download free anime, manhwa, games and aesthetic wallpapers in 4K HD. Solo Leveling, Jujutsu Kaisen, Tower of God, Naruto and more. Mobile, desktop and profile pictures.">
+<meta name="keywords" content="anime wallpapers 4k, manhwa wallpapers, solo leveling wallpaper, jujutsu kaisen wallpaper, naruto wallpaper, free wallpaper download, aesthetic wallpapers, dark amoled wallpaper, desktop wallpapers 4k, mobile wallpapers">
+<meta name="author" content="MATPAPER">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="MATPAPER — Anime Wallpapers 4K">
+<meta property="og:description" content="Download free anime, manhwa and gaming wallpapers in 4K HD quality. New wallpapers added daily.">
+<meta property="og:image" content="logo.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MATPAPER">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MATPAPER — Anime Wallpapers 4K">
+<meta name="twitter:description" content="Free anime, manhwa and gaming wallpapers in 4K HD.">
+<meta name="twitter:image" content="logo.png">
+<link rel="canonical" href="https://matpaper.netlify.app/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MATPAPER",
+  "url": "https://matpaper.netlify.app",
+  "description": "Free anime and manhwa wallpapers in 4K HD quality",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://matpaper.netlify.app/category.html?search={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" id="sidebarLogo" onclick="handleLogoTap()">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="active"><i class="fas fa-house"></i> Home</a>
+    <a href="#hot"><i class="fas fa-fire"></i> Hot Wallpapers</a>
+    <a href="#desktop"><i class="fas fa-desktop"></i> Desktop</a>
+    <a href="#profiles"><i class="fas fa-user-circle"></i> Profile Pics</a>
+    <a href="#categories"><i class="fas fa-th-large"></i> Categories</a>
+    <div class="sidebar-divider"></div>
+    <a href="saved.html"><i class="fas fa-heart"></i> Saved</a>
+    <a href="saved.html"><i class="fas fa-clock"></i> Recent</a>
+    <a href="about.html"><i class="fas fa-circle-info"></i> About</a>
+    <div class="sidebar-divider"></div>
+    <a href="#about"><i class="fas fa-circle-info"></i> About</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="toggleFavPanel()" title="Favourites">
+      <i class="fas fa-heart"></i>
+    </button>
+    <button class="header-icon-btn" onclick="location.href='saved.html'" title="Account">
+      <i class="fas fa-user-circle"></i>
+    </button>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-label">✦ Discover · Download · Display</div>
+      <h1>Anime <span>Walls</span></h1>
+      <p>High-quality wallpapers for every screen — mobile, desktop &amp; profile.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">12K+</div>
+        <div class="hero-stat-label">Wallpapers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">48</div>
+        <div class="hero-stat-label">Categories</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">Free</div>
+        <div class="hero-stat-label">Always</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search wallpapers, anime, characters...">
+    <button onclick="handleSearch()"><i class="fas fa-search"></i></button>
+  </div>
+
+  <!-- TAGS -->
+  <div class="tags" id="tagRow">
+    <span class="tag active" data-tag="all">All</span>
+    <span class="tag" data-tag="solo">Solo Leveling</span>
+    <span class="tag" data-tag="tog">Tower of God</span>
+    <span class="tag" data-tag="tbate">TBATE</span>
+    <span class="tag" data-tag="naruto">Naruto</span>
+    <span class="tag" data-tag="bleach">Bleach</span>
+    <span class="tag" data-tag="jjk">Jujutsu Kaisen</span>
+    <span class="tag" data-tag="onepiece">One Piece</span>
+    <span class="tag" data-tag="aot">Attack on Titan</span>
+    <span class="tag" data-tag="demon">Demon Slayer</span>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-num">12K+</div>
+      <div class="stat-label">Wallpapers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">48</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">200K</div>
+      <div class="stat-label">Downloads</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">4K</div>
+      <div class="stat-label">Resolution</div>
+    </div>
+  </div>
+
+  <!-- AdSense slot — shown when ads are enabled in admin -->
+<div class="mp-ad-slot" style="display:none;margin-bottom:20px;">
+  <ins class="adsbygoogle" style="display:block" data-ad-format="auto" data-full-width-responsive="true"></ins>
+</div>
+
+<!-- TRENDING -->
+  <div class="section" id="trending">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Trending Now 🔥</div>
+      <a href="category.html?cat=anime" class="see-all">See all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="scroll-row" id="trendingRow"></div>
+  </div>
+
+  <!-- EDITOR'S PICKS -->
+  <div class="section" id="featured">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Editor's Picks ✦</div>
+      <a href="category.html?cat=anime" class="see-all">See all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="scroll-row" id="featuredRow"></div>
+  </div>
+
+<!-- HOT WALLPAPERS -->
+  <div class="section" id="hot">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Hot Wallpapers</div>
+      <a href="category.html?cat=hot" class="see-all">See all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="scroll-row hot-row" id="hotRow"></div>
+  </div>
+
+  <!-- DESKTOP WALLPAPERS -->
+  <div class="section" id="desktop">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Desktop Wallpapers</div>
+      <a href="category.html?cat=desktop" class="see-all">See all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="scroll-row desktop-row" id="desktopRow"></div>
+  </div>
+
+  <!-- PROFILE PICTURES -->
+  <div class="section" id="profiles">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Profile Pictures</div>
+      <a href="category.html?cat=profile" class="see-all">See all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="scroll-row profile-row" id="profileRow"></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section" id="categories">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Browse Categories</div>
+    </div>
+    <div class="category-grid" id="categoryGrid"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="about-box" id="about">
+    <h2>About MATPAPER</h2>
+    <p>MATPAPER is a modern wallpaper platform designed for anime and manga fans who want fast, high-quality and well-organised wallpapers across multiple categories including anime, manhwa, games, and more. Every wallpaper is handpicked and optimised for your screen.</p>
+    <div class="about-tags">
+      <span class="about-tag">Anime</span>
+      <span class="about-tag">Manhwa</span>
+      <span class="about-tag">Games</span>
+      <span class="about-tag">4K Ready</span>
+      <span class="about-tag">Mobile</span>
+      <span class="about-tag">Desktop</span>
+      <span class="about-tag">Profile Pics</span>
+      <span class="about-tag">Free</span>
+    </div>
+  </div>
+
+  <!-- COMMENTS -->
+  <div class="section comments-section" id="comments">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Community</div>
+    </div>
+    <div class="comment-list" id="commentList"></div>
+    <div class="comment-form">
+      <h3>Leave a Comment</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" id="cName" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" id="cEmail" placeholder="you@example.com">
+        </div>
+      </div>
+      <textarea class="form-control" id="cText" placeholder="Share your thoughts..."></textarea>
+      <button class="submit-btn" onclick="submitComment()">
+        <i class="fas fa-paper-plane"></i> Post Comment
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo-wrap">
+        <img src="logo.png" alt="MATPAPER" class="footer-logo-img">
+        <div class="footer-logo">MATPAPER</div>
+      </div>
+      <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+      <a href="dmca.html">DMCA</a>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightboxDirect()"><i class="fas fa-times"></i></button>
+    <div class="lightbox-title" id="lbTitle"></div>
+    <img id="lbImg" src="" alt="">
+    <div class="lightbox-actions">
+      <button class="lb-btn primary" onclick="downloadCurrent()"><i class="fas fa-download"></i> Download</button>
+      <button class="lb-btn secondary" onclick="likeCurrent()"><i class="fas fa-heart"></i> Like</button>
+      <button class="lb-btn secondary" onclick="shareCurrent()"><i class="fas fa-share"></i> Share</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+<script src="db.js"></script>
+<!-- Admin/Team Access -->
+<div id="accessPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#160030;border:1px solid rgba(124,58,237,0.3);border-radius:20px;padding:28px;width:100%;max-width:320px;text-align:center;">
+    <img src="logo.png" style="width:56px;height:56px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:2px solid rgba(124,58,237,0.3);" onerror="this.style.display='none'">
+    <div style="font-family:Audiowide,sans-serif;font-size:16px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;">MATPAPER</div>
+    <div style="font-size:13px;color:#8b7aa0;margin-bottom:24px;">Select access level</div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="goToAdmin()" style="flex:1;padding:12px;background:linear-gradient(135deg,#7c3aed,#5b21b6);border:none;border-radius:12px;color:white;font-size:14px;font-weight:700;font-family:Barlow Condensed,sans-serif;letter-spacing:1px;cursor:pointer;">ADMIN</button>
+      <button onclick="goToTeam()" style="flex:1;padding:12px;background:rgba(0,229,195,0.15);border:1px solid rgba(0,229,195,0.3);border-radius:12px;color:#00e5c3;font-size:14px;font-weight:700;font-family:Barlow Condensed,sans-serif;letter-spacing:1px;cursor:pointer;">TEAM</button>
+    </div>
+    <button onclick="closePopup()" style="margin-top:14px;background:none;border:none;color:#8b7aa0;font-size:13px;cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<script>
+var logoTapCount = 0;
+var logoTapTimer = null;
+function handleLogoTap() {
+  logoTapCount++;
+  clearTimeout(logoTapTimer);
+  logoTapTimer = setTimeout(function() { logoTapCount = 0; }, 2000);
+  if (logoTapCount >= 5) {
+    logoTapCount = 0;
+    clearTimeout(logoTapTimer);
+    var popup = document.getElementById('accessPopup');
+    popup.style.display = 'flex';
+  }
+}
+function goToAdmin() { window.location.href = 'admin.html'; }
+function goToTeam()  { window.location.href = 'team.html';  }
+function closePopup() { document.getElementById('accessPopup').style.display = 'none'; }
+</script>
+<script src="site-settings.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

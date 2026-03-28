@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATPAPER — Category</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="category.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" id="sidebarLogo" onclick="handleLogoTap()">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"><i class="fas fa-house"></i> Home</a>
+    <a href="category.html?cat=hot"><i class="fas fa-fire"></i> Hot Wallpapers</a>
+    <a href="category.html?cat=desktop"><i class="fas fa-desktop"></i> Desktop</a>
+    <a href="category.html?cat=profile"><i class="fas fa-user-circle"></i> Profile Pics</a>
+    <a href="category.html?cat=anime" class="active"><i class="fas fa-th-large"></i> Categories</a>
+    <div class="sidebar-divider"></div>
+    <a href="saved.html"><i class="fas fa-heart"></i> Saved</a>
+    <a href="saved.html"><i class="fas fa-clock"></i> Recent</a>
+    <a href="about.html"><i class="fas fa-circle-info"></i> About</a>
+    <div class="sidebar-divider"></div>
+    <a href="index.html#about"><i class="fas fa-circle-info"></i> About</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="toggleFavPanel()" title="Favourites">
+      <i class="fas fa-heart"></i>
+    </button>
+    <button class="header-icon-btn" onclick="location.href='saved.html'" title="Account">
+      <i class="fas fa-user-circle"></i>
+    </button>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- PAGE TOP -->
+  <div class="cat-top">
+    <div class="cat-top-left">
+      <button class="back-btn" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div>
+        <div class="cat-eyebrow">Browse</div>
+        <h1 class="cat-title" id="catTitle">ANIME</h1>
+      </div>
+    </div>
+    <button class="filter-btn" id="filterBtn" onclick="toggleFilter()">
+      <i class="fas fa-sliders"></i> Filter
+    </button>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-container" style="margin-bottom:20px;">
+    <input type="text" id="catSearch" placeholder="Search in this category...">
+    <button onclick="handleCatSearch()"><i class="fas fa-search"></i></button>
+  </div>
+
+  <!-- SUB-FILTER TAGS (horizontal scroll) -->
+  <div class="sub-filters" id="subFilters">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- FILTER PANEL (hidden by default) -->
+  <div class="filter-panel" id="filterPanel">
+    <div class="filter-panel-inner">
+      <div class="filter-group">
+        <div class="filter-group-title">Type</div>
+        <div class="filter-options">
+          <button class="filter-opt active" data-filter-type="type" data-val="all">All</button>
+          <button class="filter-opt" data-filter-type="type" data-val="mobile">Mobile</button>
+          <button class="filter-opt" data-filter-type="type" data-val="desktop">Desktop</button>
+          <button class="filter-opt" data-filter-type="type" data-val="profile">Profile</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Resolution</div>
+        <div class="filter-options">
+          <button class="filter-opt active" data-filter-type="res" data-val="all">All</button>
+          <button class="filter-opt" data-filter-type="res" data-val="4K">4K</button>
+          <button class="filter-opt" data-filter-type="res" data-val="2K">2K</button>
+          <button class="filter-opt" data-filter-type="res" data-val="1080p">1080p</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Sort By</div>
+        <div class="filter-options">
+          <button class="filter-opt active" data-filter-type="sort" data-val="popular">Popular</button>
+          <button class="filter-opt" data-filter-type="sort" data-val="newest">Newest</button>
+          <button class="filter-opt" data-filter-type="sort" data-val="downloads">Most Downloaded</button>
+        </div>
+      </div>
+      <button class="apply-filter-btn" onclick="applyFilters()">Apply Filters</button>
+    </div>
+  </div>
+
+  <!-- RESULTS META -->
+  <div class="results-meta" id="resultsMeta">
+    <span id="resultsCount">Showing 20 wallpapers</span>
+    <span class="results-page" id="resultsPage">Page 1</span>
+  </div>
+
+  <!-- LOADING SPINNER -->
+  <div class="grid-loader" id="gridLoader">
+    <div class="loader-ring"></div>
+    <span>Loading wallpapers...</span>
+  </div>
+
+  <!-- MASONRY GRID -->
+  <div class="masonry-grid" id="masonryGrid"></div>
+
+  <!-- PAGINATION -->
+  <div class="pagination" id="pagination"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo">MATPAPER</div>
+      <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+      <a href="dmca.html">DMCA</a>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Appwrite SDK -->
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+<script src="db.js"></script>
+<script src="category.js"></script>
+</body>
+</html>

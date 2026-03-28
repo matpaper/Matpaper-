@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — MATPAPER</title>
+<meta name="description" content="Contact the MATPAPER team for support, wallpaper submissions, or removal requests.">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" onerror="this.style.display='none'">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"><i class="fas fa-house"></i> Home</a>
+    <a href="category.html?cat=anime"><i class="fas fa-images"></i> Browse</a>
+    <a href="saved.html"><i class="fas fa-heart"></i> Saved</a>
+    <div class="sidebar-divider"></div>
+    <a href="about.html"><i class="fas fa-circle-info"></i> About</a>
+    <a href="contact.html" class="active"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="privacy.html"><i class="fas fa-shield-halved"></i> Privacy</a>
+    <a href="terms.html"><i class="fas fa-file-lines"></i> Terms</a>
+    <a href="dmca.html"><i class="fas fa-copyright"></i> DMCA</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="location.href='saved.html'" title="Saved"><i class="fas fa-heart"></i></button>
+  </div>
+</header>
+
+<div class="page-wrap">
+<style>
+.contact-page{max-width:600px;margin:0 auto;padding:32px 16px 80px;}
+.page-heading{font-family:'Audiowide',sans-serif;font-size:22px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.page-sub{font-size:14px;color:#8b7aa0;margin-bottom:28px;line-height:1.6;}
+.contact-card{background:#160030;border:1px solid rgba(124,58,237,0.25);border-radius:20px;padding:24px;margin-bottom:20px;}
+.contact-card-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8b7aa0;margin-bottom:16px;}
+.form-field{margin-bottom:16px;}
+.form-field label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8b7aa0;margin-bottom:6px;}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:12px 14px;background:#1a003a;border:1px solid rgba(124,58,237,0.25);border-radius:10px;color:#f0e6ff;font-size:15px;font-family:'Barlow',sans-serif;outline:none;-webkit-appearance:none;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:#00e5c3;box-shadow:0 0 0 3px rgba(0,229,195,0.1);}
+.form-field textarea{height:120px;resize:vertical;}
+.form-field input::placeholder,.form-field textarea::placeholder{color:#4a3a5a;}
+.submit-btn{width:100%;padding:14px;background:linear-gradient(135deg,#7c3aed,#5b21b6);border:none;border-radius:14px;color:white;font-size:15px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;margin-top:4px;}
+.submit-btn:hover{transform:translateY(-2px);}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.contact-link{display:flex;align-items:center;gap:14px;background:#1a003a;border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:16px;margin-bottom:10px;text-decoration:none;transition:border-color 0.2s;}
+.contact-link:hover{border-color:rgba(124,58,237,0.5);}
+.contact-link-icon{width:40px;height:40px;border-radius:10px;background:rgba(124,58,237,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;color:#c084fc;flex-shrink:0;}
+.contact-link-title{font-size:14px;font-weight:600;color:#f0e6ff;}
+.contact-link-sub{font-size:12px;color:#8b7aa0;margin-top:2px;}
+.success-msg{display:none;background:rgba(0,229,195,0.1);border:1px solid rgba(0,229,195,0.3);border-radius:12px;padding:14px 16px;color:#00e5c3;font-size:14px;margin-top:12px;font-family:'Barlow Condensed',sans-serif;}
+</style>
+
+<div class="contact-page">
+  <div class="page-heading">Contact Us</div>
+  <div class="page-sub">Have a question, found a bug, or want to submit a wallpaper? Send us a message below.</div>
+
+  <div class="contact-card">
+    <div class="contact-card-title">Send a Message</div>
+    <div class="form-field">
+      <label>Your Name</label>
+      <input type="text" id="cName" placeholder="Enter your name">
+    </div>
+    <div class="form-field">
+      <label>Email Address</label>
+      <input type="email" id="cEmail" placeholder="you@example.com">
+    </div>
+    <div class="form-field">
+      <label>Subject</label>
+      <select id="cSubject">
+        <option value="">Select a topic...</option>
+        <option value="general">General Question</option>
+        <option value="submit">Submit Wallpapers</option>
+        <option value="bug">Report a Bug</option>
+        <option value="removal">Wallpaper Removal</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Message</label>
+      <textarea id="cMessage" placeholder="Tell us what's on your mind..."></textarea>
+    </div>
+    <button class="submit-btn" id="submitBtn" onclick="sendMessage()">
+      <i class="fas fa-paper-plane"></i> Send Message
+    </button>
+    <div class="success-msg" id="successMsg">
+      <i class="fas fa-check-circle"></i> Message sent! We'll get back to you within 48 hours.
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <div class="contact-card-title">Other Ways to Reach Us</div>
+    <a href="dmca.html" class="contact-link">
+      <div class="contact-link-icon"><i class="fas fa-copyright"></i></div>
+      <div><div class="contact-link-title">DMCA / Copyright Removal</div><div class="contact-link-sub">Report infringing content for removal</div></div>
+    </a>
+    <a href="about.html" class="contact-link">
+      <div class="contact-link-icon"><i class="fas fa-circle-info"></i></div>
+      <div><div class="contact-link-title">About MATPAPER</div><div class="contact-link-sub">Learn more about who we are</div></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">MATPAPER</div>
+    <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+    <a href="dmca.html">DMCA</a>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script>
+function openSidebar(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');document.body.style.overflow='';}
+
+function sendMessage() {
+  var name    = document.getElementById('cName').value.trim();
+  var email   = document.getElementById('cEmail').value.trim();
+  var subject = document.getElementById('cSubject').value;
+  var message = document.getElementById('cMessage').value.trim();
+  if (!name || !email || !subject || !message) {
+    alert('Please fill in all fields.');
+    return;
+  }
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) { alert('Please enter a valid email address.'); return; }
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  // Using mailto as fallback — replace with real backend/Formspree when ready
+  var mailtoLink = 'mailto:admin@matpaper.com?subject=' + encodeURIComponent('[MATPAPER] ' + subject + ' from ' + name) + '&body=' + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+  window.location.href = mailtoLink;
+  setTimeout(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    document.getElementById('successMsg').style.display = 'block';
+  }, 1000);
+}
+</script>
+</body>
+</html>

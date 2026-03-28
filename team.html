@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATPAPER — Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg-deep:#07000f;--bg-surface:#160030;--bg-card:#1a003a;--accent:#7c3aed;--accent-hot:#a855f7;--accent-glow:#c084fc;--accent-teal:#00e5c3;--text-primary:#f0e6ff;--text-muted:#b09cc5;--text-dim:#7a6a8a;--border:rgba(124,58,237,0.3);--radius-sm:10px;--radius-md:16px;--radius-lg:24px;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;font-size:15px;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(124,58,237,0.12) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(0,229,195,0.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+a{text-decoration:none;color:inherit;}button{font-family:inherit;cursor:pointer;}img{display:block;}
+
+#loginScreen{position:fixed;inset:0;background:var(--bg-deep);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.lbox{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 28px;width:100%;max-width:380px;text-align:center;}
+.lbox-logo{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border);margin:0 auto 16px;}
+.lbox-title{font-family:'Audiowide',sans-serif;font-size:20px;background:linear-gradient(135deg,var(--accent-teal),var(--accent-hot));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.lbox-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;}
+.lbox-field{margin-bottom:14px;text-align:left;}
+.lbox-field label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.lbox-field input{width:100%;padding:12px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:15px;font-family:'Barlow',sans-serif;outline:none;-webkit-appearance:none;}
+.lbox-field input:focus{border-color:var(--accent-teal);box-shadow:0 0 0 3px rgba(0,229,195,0.12);}
+.lbox-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent-teal),#00b89c);border:none;border-radius:var(--radius-md);color:#000;font-size:15px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+.lbox-btn:hover{transform:translateY(-2px);}
+.lbox-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.lbox-err{display:none;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:var(--radius-sm);padding:10px 14px;color:#fc8181;font-size:13px;margin-top:12px;}
+.lbox-back{display:inline-block;margin-top:16px;font-size:13px;color:var(--text-muted);cursor:pointer;}
+.lbox-back:hover{color:var(--accent-glow);}
+
+#teamPanel{display:none;position:relative;z-index:1;}
+
+.t-hdr{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;background:rgba(7,0,15,0.95);border-bottom:1px solid var(--border);padding:12px 16px;}
+.t-logo{display:flex;align-items:center;gap:10px;flex:1;}
+.t-logo img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--border);}
+.t-logo-text{font-family:'Audiowide',sans-serif;font-size:16px;background:linear-gradient(135deg,var(--accent-teal),var(--accent-hot));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.t-badge{padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;background:rgba(0,229,195,0.15);color:var(--accent-teal);border:1px solid rgba(0,229,195,0.3);}
+.logout-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);border-radius:var(--radius-sm);color:#fc8181;font-size:13px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.5px;transition:all 0.2s;}
+.logout-btn:hover{background:rgba(229,62,62,0.2);}
+
+.t-tabs{display:flex;gap:4px;padding:14px 16px 0;border-bottom:1px solid var(--border);background:rgba(7,0,15,0.5);}
+.t-tab{display:flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-size:14px;font-weight:600;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.t-tab:hover{color:var(--text-primary);}
+.t-tab.active{color:var(--accent-teal);border-bottom-color:var(--accent-teal);background:rgba(0,229,195,0.06);}
+
+.t-wrap{max-width:800px;margin:0 auto;padding:24px 16px 80px;}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+.panel-title{font-family:'Audiowide',sans-serif;font-size:18px;background:linear-gradient(135deg,var(--accent-teal),var(--accent-hot));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;}
+
+.ac{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;}
+.ac-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;}
+.f{margin-bottom:14px;}
+.f label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.f input,.f select{width:100%;padding:12px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:15px;font-family:'Barlow',sans-serif;outline:none;-webkit-appearance:none;}
+.f input:focus,.f select:focus{border-color:var(--accent-teal);box-shadow:0 0 0 3px rgba(0,229,195,0.12);}
+.f input::placeholder{color:var(--text-dim);}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.cr{display:flex;align-items:center;gap:10px;padding:8px 0;}
+.cr input{width:18px;height:18px;accent-color:var(--accent);}
+.cr label{font-size:14px;color:var(--text-muted);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:var(--radius-md);border:none;font-size:14px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.bp{background:linear-gradient(135deg,var(--accent),#5b21b6);color:white;box-shadow:0 4px 16px rgba(124,58,237,0.3);}
+.bp:hover{transform:translateY(-2px);}.bp:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.bt{background:rgba(0,229,195,0.15);border:1px solid rgba(0,229,195,0.3);color:var(--accent-teal);}
+.bt:hover{background:rgba(0,229,195,0.25);}
+.bd{background:rgba(229,62,62,0.15);border:1px solid rgba(229,62,62,0.3);color:#fc8181;}
+.bd:hover{background:rgba(229,62,62,0.25);}
+.bg{background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);}
+.bg:hover{border-color:var(--accent);color:var(--text-primary);}
+.bf{width:100%;}.bs{padding:7px 14px;font-size:12px;}
+
+.pw{display:none;margin-top:14px;}
+.pt{height:8px;background:var(--bg-card);border-radius:4px;overflow:hidden;margin-bottom:8px;}
+.pf{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-teal));border-radius:4px;width:0%;transition:width 0.4s ease;}
+.pl{font-size:13px;color:var(--text-muted);text-align:center;font-family:'Barlow Condensed',sans-serif;}
+
+.msg{display:none;padding:12px 16px;border-radius:var(--radius-md);font-size:14px;margin-top:12px;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;line-height:1.6;}
+.ms{background:rgba(0,229,195,0.1);border:1px solid rgba(0,229,195,0.3);color:var(--accent-teal);}
+.me{background:rgba(229,62,62,0.1);border:1px solid rgba(229,62,62,0.3);color:#fc8181;}
+
+.file-lbl{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;padding:32px 20px;border:2px dashed var(--border);border-radius:var(--radius-md);cursor:pointer;text-align:center;transition:border-color 0.2s,background 0.2s;margin-bottom:16px;-webkit-tap-highlight-color:transparent;}
+.file-lbl:active{border-color:var(--accent-teal);background:rgba(0,229,195,0.06);}
+.file-lbl i{font-size:32px;color:var(--accent-glow);}
+.fl-text{font-size:15px;font-weight:600;color:var(--text-primary);}
+.fl-sub{font-size:13px;color:var(--text-muted);}
+#mfi{width:0.1px;height:0.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1;}
+
+.iq{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.ii{display:flex;align-items:flex-start;gap:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;transition:border-color 0.2s;}
+.ii.done{border-color:rgba(0,229,195,0.4);}.ii.fail{border-color:rgba(229,62,62,0.4);}
+.ii img{width:56px;height:56px;object-fit:cover;border-radius:8px;flex-shrink:0;}
+.ii-f{flex:1;min-width:0;}
+.ii-inp{width:100%;padding:9px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;font-family:'Barlow',sans-serif;outline:none;margin-bottom:6px;}
+.ii-inp:focus{border-color:var(--accent-teal);}
+.ii-inp::placeholder{color:var(--text-dim);}
+.ii-st{font-size:12px;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;color:var(--text-dim);}
+.ii-st.ok{color:var(--accent-teal);}.ii-st.err{color:#fc8181;}.ii-st.upl{color:var(--accent-glow);}
+.ii-rm{width:28px;height:28px;border-radius:50%;background:rgba(229,62,62,0.15);border:none;color:#fc8181;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+.ii-rm:hover{background:rgba(229,62,62,0.3);}
+
+.mc{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.ms-inp{flex:1;min-width:180px;padding:10px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;font-family:'Barlow',sans-serif;outline:none;}
+.ms-inp:focus{border-color:var(--accent);}
+.ms-inp::placeholder{color:var(--text-dim);}
+.wl{display:flex;flex-direction:column;gap:10px;}
+.wi{display:flex;align-items:center;gap:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;transition:border-color 0.2s;}
+.wi:hover{border-color:var(--accent);}
+.wi img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;}
+.wi-info{flex:1;min-width:0;}
+.wi-title{font-size:14px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.wi-meta{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.wi-act{display:flex;gap:6px;flex-shrink:0;}
+.lmb{width:100%;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);color:var(--text-muted);font-size:14px;font-family:'Barlow Condensed',sans-serif;font-weight:600;cursor:pointer;margin-top:12px;transition:all 0.2s;}
+.lmb:hover{border-color:var(--accent);color:var(--accent-glow);}
+
+.toast-container{position:fixed;bottom:20px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.toast{display:flex;align-items:center;gap:10px;background:#1a003a;border:1px solid var(--accent);border-radius:var(--radius-md);padding:11px 16px;font-size:14px;color:var(--text-primary);box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translateX(120%);transition:transform 0.3s ease;min-width:200px;}
+.toast.show{transform:translateX(0);}
+.toast i{color:var(--accent-teal);flex-shrink:0;}
+
+@media(max-width:480px){.two{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="lbox">
+    <img src="logo.png" alt="MATPAPER" class="lbox-logo">
+    <div class="lbox-title">Team Panel</div>
+    <div class="lbox-sub">Secure team access — verified by Appwrite</div>
+    <div class="lbox-field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="team@matpaper.com" autocomplete="email">
+    </div>
+    <div class="lbox-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Team password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="lbox-btn" id="loginBtn" onclick="doLogin()">
+      <i class="fas fa-unlock"></i> Team Login
+    </button>
+    <div class="lbox-err" id="loginErr"></div>
+    <div class="lbox-back" onclick="location.href='index.html'">← Back to MATPAPER</div>
+  </div>
+</div>
+
+<!-- TEAM PANEL -->
+<div id="teamPanel">
+  <div class="t-hdr">
+    <div class="t-logo">
+      <img src="logo.png" alt="">
+      <div class="t-logo-text">Team Panel</div>
+    </div>
+    <span class="t-badge">Team</span>
+    <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+
+  <div class="t-tabs">
+    <button class="t-tab active" id="tbn-upload" onclick="switchTab('upload')"><i class="fas fa-upload"></i> Upload</button>
+    <button class="t-tab"        id="tbn-manage" onclick="switchTab('manage')"><i class="fas fa-images"></i> Manage</button>
+  </div>
+
+  <div class="t-wrap">
+
+    <!-- UPLOAD -->
+    <div class="tab-panel active" id="tab-upload">
+      <div class="panel-title">Upload Wallpapers</div>
+      <div class="ac">
+        <div class="ac-title">Select Images</div>
+        <label for="mfi" class="file-lbl">
+          <i class="fas fa-images"></i>
+          <div class="fl-text">Tap to select one or more images</div>
+          <div class="fl-sub">JPG · PNG · WEBP · 4K supported · Max 50MB each</div>
+        </label>
+        <input type="file" id="mfi" accept="image/*" multiple>
+      </div>
+      <div class="ac" id="sharedCard" style="display:none;">
+        <div class="ac-title">Shared Settings</div>
+        <div class="two">
+          <div class="f"><label>Category *</label>
+            <select id="sCat">
+              <option value="">Select...</option>
+              <option value="anime">Anime</option><option value="manhwa">Manhwa</option>
+              <option value="games">Games</option><option value="nature">Nature</option>
+              <option value="abstract">Abstract</option><option value="aesthetic">Aesthetic</option>
+              <option value="cyberpunk">Cyberpunk</option><option value="dark-amoled">Dark AMOLED</option>
+              <option value="desktop">Desktop</option><option value="minimalist">Minimalist</option>
+              <option value="neon">Neon</option><option value="space">Space</option>
+              <option value="sci-fi">Sci-Fi</option><option value="profile">Profile Pic</option>
+            </select>
+          </div>
+          <div class="f"><label>Resolution</label>
+            <select id="sRes">
+              <option value="4K">4K</option><option value="2K">2K</option>
+              <option value="1440p">1440p</option><option value="1080p" selected>1080p</option><option value="720p">720p</option>
+            </select>
+          </div>
+        </div>
+        <div class="f"><label>Tags (comma separated)</label><input type="text" id="sTags" placeholder="e.g. anime, dark, action, 4k"></div>
+        <div class="two">
+          <div class="f"><label>Platform</label>
+            <select id="sPlatform">
+              <option value="mobile">Mobile (Portrait)</option>
+              <option value="desktop">Desktop (Landscape)</option>
+              <option value="both">Both</option>
+              <option value="profile">Profile Pic (Square)</option>
+            </select>
+          </div>
+          <div class="f" style="display:flex;align-items:flex-end;">
+            <div class="cr"><input type="checkbox" id="sNew" checked><label for="sNew">Mark all as New</label></div>
+          </div>
+        </div>
+      </div>
+      <div id="queueWrap" style="display:none;">
+        <div class="ac">
+          <div class="ac-title">Images — add a title for each</div>
+          <div class="iq" id="imgQueue"></div>
+        </div>
+        <button class="btn bp bf" id="uploadAllBtn" onclick="uploadAll()"><i class="fas fa-upload"></i> Upload All</button>
+        <div class="pw" id="upPW"><div class="pt"><div class="pf" id="upPF"></div></div><div class="pl" id="upPL">Uploading...</div></div>
+        <div class="msg ms" id="upOk"></div>
+        <div class="msg me" id="upErr"></div>
+      </div>
+    </div>
+
+    <!-- MANAGE -->
+    <div class="tab-panel" id="tab-manage">
+      <div class="panel-title">Manage Wallpapers</div>
+      <div class="mc">
+        <input type="text" class="ms-inp" id="manageSearch" placeholder="Search by title or category..." oninput="filterList()">
+        <button class="btn bt bs" onclick="loadList()"><i class="fas fa-refresh"></i></button>
+      </div>
+      <div class="wl" id="wallpaperList">
+        <div style="text-align:center;padding:40px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:24px;display:block;margin-bottom:12px;color:var(--accent-glow);"></i>Loading...</div>
+      </div>
+      <button class="lmb" id="lmBtn" onclick="loadMore()" style="display:none;">Load More</button>
+    </div>
+
+  </div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+<script src="auth.js"></script>
+<script>
+var AW_EP  = 'https://nyc.cloud.appwrite.io/v1';
+var AW_PID = '69bfd37d001379ea4815';
+const AW_DB  = 'matpaper-db-001';
+const AW_COL = 'matpaper-col-001';
+const ST_COL = 'site-settings-001';
+const ST_DOC = 'global';
+const CL     = 'dd0zzul9w';
+const CP     = 'matpaper_upload';
+
+const awClient = new Appwrite.Client().setEndpoint(AW_EP).setProject(AW_PID);
+const db       = new Appwrite.Databases(awClient);
+
+var imgFiles   = [];
+var allDocs    = [];
+var listOffset = 0;
+var LIMIT      = 20;
+
+/* ── Login ── */
+async function doLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass  = document.getElementById('loginPass').value;
+  var btn   = document.getElementById('loginBtn');
+  var err   = document.getElementById('loginErr');
+
+  if (!email || !pass) { showErr(err,'Please enter your email and password.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+  err.style.display = 'none';
+
+  try {
+    var user = await Auth.login(email, pass);
+    if (!Auth.isTeam(user)) {
+      await Auth.logout();
+      showErr(err,'Access denied. This account does not have team privileges.');
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-unlock"></i> Team Login';
+      return;
+    }
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('teamPanel').style.display   = 'block';
+    loadList();
+  } catch(e) {
+    showErr(err,'Login failed: '+(e.message||'Invalid credentials'));
+    btn.disabled = false; btn.innerHTML = '<i class="fas fa-unlock"></i> Team Login';
+  }
+}
+
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+
+async function doLogout() {
+  await Auth.logout();
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value  = '';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('teamPanel').style.display   = 'none';
+}
+
+window.addEventListener('load', async function() {
+  var user = await Auth.getUser();
+  if (user && Auth.isTeam(user)) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('teamPanel').style.display   = 'block';
+    loadList();
+  }
+});
+
+/* ── Tabs ── */
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.t-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('tbn-'+name).classList.add('active');
+  if (name === 'manage') loadList();
+}
+
+/* ── File select ── */
+document.getElementById('mfi').addEventListener('change', function() {
+  var files = Array.from(this.files);
+  if (!files.length) return;
+  imgFiles = files.map(function(f){return{file:f,title:'',preview:URL.createObjectURL(f)};});
+  renderQueue();
+  document.getElementById('sharedCard').style.display = 'block';
+  document.getElementById('queueWrap').style.display  = 'block';
+  document.getElementById('upOk').style.display = document.getElementById('upErr').style.display = 'none';
+  toast(files.length+' image'+(files.length>1?'s':'')+' selected','fa-images');
+});
+
+function renderQueue() {
+  var q = document.getElementById('imgQueue'); q.innerHTML='';
+  imgFiles.forEach(function(item,i){
+    var div=document.createElement('div'); div.className='ii'; div.id='ii-'+i;
+    div.innerHTML='<img src="'+item.preview+'" alt=""><div class="ii-f"><input type="text" class="ii-inp" placeholder="Enter title *" value="'+esc(item.title)+'" oninput="imgFiles['+i+'].title=this.value"><div class="ii-st" id="ii-st-'+i+'">Waiting</div></div><button class="ii-rm" onclick="rmItem('+i+')"><i class="fas fa-times"></i></button>';
+    q.appendChild(div);
+  });
+}
+
+function rmItem(i){
+  imgFiles.splice(i,1);
+  if(!imgFiles.length){document.getElementById('sharedCard').style.display='none';document.getElementById('queueWrap').style.display='none';}
+  else renderQueue();
+}
+
+/* ── Upload all ── */
+async function uploadAll() {
+  var cat=document.getElementById('sCat').value;
+  if(!cat){toast('Select a category','fa-triangle-exclamation');return;}
+  var bad=imgFiles.filter(function(f){return !f.title.trim();});
+  if(bad.length){toast('Add a title to every image','fa-triangle-exclamation');return;}
+  var tags=document.getElementById('sTags').value.trim()||cat;
+  var res=document.getElementById('sRes').value;
+  var isNew=document.getElementById('sNew').checked;
+  var platform=document.getElementById('sPlatform')?document.getElementById('sPlatform').value:'mobile';
+  if(!tags.includes(platform)) tags=tags+', '+platform;
+  var btn=document.getElementById('uploadAllBtn');
+  btn.disabled=true;
+  document.getElementById('upPW').style.display='block';
+  document.getElementById('upOk').style.display=document.getElementById('upErr').style.display='none';
+  var ok=0;var fail=0;
+  for(var i=0;i<imgFiles.length;i++){
+    var item=imgFiles[i];
+    var stEl=document.getElementById('ii-st-'+i);
+    var itEl=document.getElementById('ii-'+i);
+    stEl.textContent='Uploading...';stEl.className='ii-st upl';
+    document.getElementById('upPF').style.width=Math.round(i/imgFiles.length*100)+'%';
+    document.getElementById('upPL').textContent='Uploading '+(i+1)+'/'+imgFiles.length+': '+item.title;
+    try{
+      var fd=new FormData();fd.append('file',item.file);fd.append('upload_preset',CP);
+      var cData=await new Promise(function(resolve,reject){
+        var xhr=new XMLHttpRequest();
+        xhr.open('POST','https://api.cloudinary.com/v1_1/'+CL+'/image/upload');
+        xhr.timeout=120000;
+        xhr.onload=function(){try{var d=JSON.parse(xhr.responseText);d.error?reject(new Error(d.error.message)):resolve(d);}catch(e){reject(new Error('Bad response'));}};
+        xhr.onerror=function(){reject(new Error('Network error'));};
+        xhr.ontimeout=function(){reject(new Error('Timeout'));};
+        xhr.send(fd);
+      });
+      await db.createDocument(AW_DB,AW_COL,Appwrite.ID.unique(),{Title:item.title.trim(),Category:cat,Tag:tags,Resolution:res,Cloudinary_url:cData.public_id,Thumbnail_url:cData.secure_url,Views:0,Downloads:0,Likes:0,Is_new:isNew});
+      stEl.textContent='✓ Uploaded';stEl.className='ii-st ok';itEl.classList.add('done');ok++;
+    }catch(err){stEl.textContent='✗ '+err.message;stEl.className='ii-st err';itEl.classList.add('fail');fail++;}
+  }
+  document.getElementById('upPF').style.width='100%';document.getElementById('upPL').textContent='Done!';
+  btn.disabled=false;
+  if(ok){var s=document.getElementById('upOk');s.style.display='block';s.innerHTML='<i class="fas fa-check-circle"></i> '+ok+' uploaded!';toast(ok+' uploaded! 🎉','fa-check');}
+  if(fail){var e=document.getElementById('upErr');e.style.display='block';e.innerHTML='<i class="fas fa-triangle-exclamation"></i> '+fail+' failed.';}
+  loadList();
+}
+
+/* ── Manage ── */
+async function loadList(){
+  listOffset=0;allDocs=[];
+  var el=document.getElementById('wallpaperList');
+  el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:24px;display:block;margin-bottom:12px;color:var(--accent-glow);"></i>Loading...</div>';
+  try{
+    var r=await db.listDocuments(AW_DB,AW_COL,[Appwrite.Query.limit(LIMIT),Appwrite.Query.orderDesc('$createdAt')]);
+    allDocs=r.documents;renderList(allDocs);
+    document.getElementById('lmBtn').style.display=r.total>LIMIT?'block':'none';
+  }catch(err){el.innerHTML='<div style="text-align:center;padding:40px;color:#fc8181;">Failed: '+err.message+'</div>';}
+}
+
+async function loadMore(){
+  listOffset+=LIMIT;
+  var r=await db.listDocuments(AW_DB,AW_COL,[Appwrite.Query.limit(LIMIT),Appwrite.Query.offset(listOffset),Appwrite.Query.orderDesc('$createdAt')]);
+  allDocs=allDocs.concat(r.documents);renderList(allDocs);
+  if(r.documents.length<LIMIT)document.getElementById('lmBtn').style.display='none';
+}
+
+function renderList(docs){
+  var el=document.getElementById('wallpaperList');
+  if(!docs.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-muted);">No wallpapers found.</div>';return;}
+  el.innerHTML='';
+  docs.forEach(function(doc,idx){
+    var thumb=doc.Cloudinary_url?'https://res.cloudinary.com/'+CL+'/image/upload/w_80,h_80,c_fill/'+doc.Cloudinary_url:'https://picsum.photos/seed/'+doc.$id+'/80/80';
+    var d=document.createElement('div');d.className='wi';
+    d.innerHTML='<img src="'+thumb+'" alt="" onerror="this.src=\'https://picsum.photos/seed/'+doc.$id+'/80/80\'"><div class="wi-info"><div class="wi-title">'+(doc.Title||'Untitled')+'</div><div class="wi-meta">'+(doc.Category||'')+' · '+(doc.Resolution||'')+(doc.Is_new?' · 🆕':'')+'</div></div><div class="wi-act"><button class="btn bd bs del-btn" data-id="'+doc.$id+'" data-title="'+escAttr(doc.Title)+'"><i class="fas fa-trash"></i></button></div>';
+    el.appendChild(d);
+  });
+  el.querySelectorAll('.del-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ delDoc(this.dataset.id, this.dataset.title); });
+  });
+}
+
+function escAttr(str){return(str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+function filterList(){
+  var q=document.getElementById('manageSearch').value.toLowerCase();
+  renderList(allDocs.filter(function(d){return (d.Title||'').toLowerCase().includes(q)||(d.Category||'').toLowerCase().includes(q);}));
+}
+
+async function delDoc(id,title){
+  if(!confirm('Delete "'+title+'"? Cannot be undone.'))return;
+  try{
+    await db.deleteDocument(AW_DB,AW_COL,id);
+    toast('"'+title+'" deleted','fa-trash');
+    loadList();
+  }catch(err){
+    if(err.message&&err.message.toLowerCase().includes('unauthori')){
+      toast('Permission denied — add Any → Delete in Appwrite collection permissions','fa-triangle-exclamation');
+    } else {
+      toast('Delete failed: '+err.message,'fa-triangle-exclamation');
+    }
+  }
+}
+
+/* ── Helpers ── */
+function showErr(el,msg){el.innerHTML='<i class="fas fa-triangle-exclamation"></i> '+msg;el.style.display='block';}
+function esc(str){return(str||'').replace(/'/g,"\\'").replace(/"/g,'\\"');}
+function toast(msg,icon){
+  var c=document.getElementById('toastContainer');
+  var t=document.createElement('div');t.className='toast';
+  t.innerHTML='<i class="fas '+(icon||'fa-check')+'"></i> '+msg;
+  c.appendChild(t);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('show');});});
+  setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},350);},3500);
+}
+</script>
+</body>
+</html>

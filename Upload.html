@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATPAPER — Upload</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg-deep:      #07000f;
+  --bg-surface:   #160030;
+  --bg-card:      #1a003a;
+  --accent:       #7c3aed;
+  --accent-hot:   #a855f7;
+  --accent-glow:  #c084fc;
+  --accent-teal:  #00e5c3;
+  --text-primary: #f0e6ff;
+  --text-muted:   #8b7aa0;
+  --text-dim:     #4a3a5a;
+  --border:       rgba(124,58,237,0.25);
+  --radius-sm:    10px;
+  --radius-md:    16px;
+  --radius-lg:    24px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(124,58,237,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,229,195,0.06) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(7,0,15,0.95);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 15px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 18px;
+  background: linear-gradient(135deg, var(--accent-hot), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  flex: 1;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 28px 16px 80px;
+}
+
+.page-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 20px;
+  background: linear-gradient(135deg, var(--accent-hot), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+/* ── FILE PICKER — simple label button, works on all devices ── */
+.file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 36px 20px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+.file-label:active {
+  border-color: var(--accent);
+  background: rgba(124,58,237,0.1);
+}
+
+/* The actual input — visually hidden but accessible */
+#fileInput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-icon {
+  font-size: 36px;
+  color: var(--accent-glow);
+}
+.file-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.file-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ── Preview ── */
+#previewWrap {
+  display: none;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  position: relative;
+}
+#previewImg {
+  width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  display: block;
+  background: #000;
+}
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(229,62,62,0.9);
+  border: none;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ── Change image button ── */
+.change-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--accent-glow);
+  font-size: 13px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  display: none;
+}
+
+/* ── Form fields ── */
+.field {
+  margin-bottom: 14px;
+}
+.field label {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: 'Barlow', sans-serif;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input:focus,
+.field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+}
+.field input::placeholder { color: var(--text-dim); }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+.check-row input { width: 18px; height: 18px; accent-color: var(--accent); }
+.check-row label { font-size: 14px; color: var(--text-muted); }
+
+/* ── Upload button ── */
+#uploadBtn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--accent), #5b21b6);
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+  transition: opacity 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+#uploadBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+#uploadBtn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* ── Progress ── */
+#progressWrap { display: none; margin-top: 14px; }
+.prog-track {
+  height: 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-teal));
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+.prog-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* ── Messages ── */
+.msg {
+  display: none;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  margin-top: 12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+}
+.msg.success {
+  background: rgba(0,229,195,0.1);
+  border: 1px solid rgba(0,229,195,0.3);
+  color: var(--accent-teal);
+}
+.msg.error {
+  background: rgba(229,62,62,0.1);
+  border: 1px solid rgba(229,62,62,0.3);
+  color: #fc8181;
+}
+
+/* ── Recent ── */
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.recent-item img {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.recent-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.recent-item-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.live-badge {
+  padding: 2px 8px;
+  background: rgba(0,229,195,0.15);
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-teal);
+  font-family: 'Barlow Condensed', sans-serif;
+  flex-shrink: 0;
+}
+
+/* ── Toast ── */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 16px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1a003a;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 11px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+  min-width: 200px;
+}
+.toast.show { transform: translateX(0); }
+.toast i { color: var(--accent-teal); flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i></a>
+  <div class="logo">MATPAPER</div>
+</header>
+
+<div class="wrap">
+
+  <div class="page-label">Admin Panel</div>
+  <div class="page-title">Upload Wallpaper</div>
+
+  <!-- IMAGE CARD -->
+  <div class="card">
+    <div class="card-title">Image File</div>
+
+    <!-- This is the simplest possible mobile file picker -->
+    <label for="fileInput" class="file-label" id="fileLabel">
+      <div class="file-icon"><i class="fas fa-image"></i></div>
+      <div class="file-text">Tap here to choose image</div>
+      <div class="file-sub">JPG · PNG · WEBP · 4K supported · Max 50MB</div>
+    </label>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <!-- Preview -->
+    <div id="previewWrap">
+      <img id="previewImg" src="" alt="Preview">
+      <button class="remove-btn" onclick="removeImg()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Change image (shows after selecting) -->
+    <label for="fileInput" class="change-btn" id="changeBtn">
+      <i class="fas fa-refresh"></i> Change Image
+    </label>
+
+  </div>
+
+  <!-- DETAILS CARD -->
+  <div class="card">
+    <div class="card-title">Wallpaper Details</div>
+
+    <div class="field">
+      <label>Title *</label>
+      <input type="text" id="wpTitle" placeholder="e.g. Sung Jin-Woo — Shadow Monarch">
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label>Category *</label>
+        <select id="wpCategory">
+          <option value="">Select...</option>
+          <option value="anime">Anime</option>
+          <option value="manhwa">Manhwa</option>
+          <option value="games">Games</option>
+          <option value="nature">Nature</option>
+          <option value="minimalist">Minimalist</option>
+          <option value="dark">Dark Theme</option>
+          <option value="profile">Profile Pic</option>
+          <option value="desktop">Desktop</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Resolution</label>
+        <select id="wpResolution">
+          <option value="4K">4K</option>
+          <option value="2K">2K</option>
+          <option value="1440p">1440p</option>
+          <option value="1080p" selected>1080p</option>
+          <option value="720p">720p</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tags (comma separated)</label>
+      <input type="text" id="wpTags" placeholder="e.g. anime, solo leveling, dark">
+    </div>
+
+    <div class="check-row">
+      <input type="checkbox" id="wpIsNew">
+      <label for="wpIsNew">Mark as New</label>
+    </div>
+
+    <button onclick="testCloudinary()" style="width:100%;padding:12px;background:rgba(0,229,195,0.15);border:1px solid rgba(0,229,195,0.3);border-radius:10px;color:#00e5c3;font-size:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;cursor:pointer;margin-bottom:10px;">
+      🔍 TEST CLOUDINARY CONNECTION
+    </button>
+
+    <button id="uploadBtn" onclick="handleUpload()" disabled>
+      <i class="fas fa-upload"></i> Upload Wallpaper
+    </button>
+
+    <div id="progressWrap">
+      <div class="prog-track">
+        <div class="prog-fill" id="progFill"></div>
+      </div>
+      <div class="prog-label" id="progLabel">Uploading...</div>
+    </div>
+
+    <div class="msg success" id="successMsg">
+      <i class="fas fa-check-circle"></i> Wallpaper uploaded and live!
+    </div>
+    <div class="msg error" id="errorMsg"></div>
+  </div>
+
+  <!-- RECENT UPLOADS -->
+  <div class="card">
+    <div class="card-title">Recent Uploads</div>
+    <div id="recentList">
+      <div style="color:var(--text-dim);font-size:13px;text-align:center;padding:16px 0;">
+        No uploads yet
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Appwrite SDK -->
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+
+<script>
+/* ── Config ── */
+const APPWRITE_ENDPOINT   = 'https://nyc.cloud.appwrite.io/v1';
+const APPWRITE_PROJECT_ID = '69bfd37d001379ea4815';
+const APPWRITE_DB_ID      = 'matpaper-db-001';
+const APPWRITE_COL_ID     = 'matpaper-col-001';
+const CLOUDINARY_CLOUD    = 'dd0zzul9w';
+const CLOUDINARY_PRESET   = 'matpaper_upload';
+
+window.testCloudinary = async function() {
+  const status = document.getElementById('errorMsg');
+  status.style.display = 'block';
+  status.innerHTML = '⏳ Testing Cloudinary connection...';
+  try {
+    const fd = new FormData();
+    fd.append('upload_preset', CLOUDINARY_PRESET);
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,
+      { method: 'POST', body: fd }
+    );
+    const text = await res.text();
+    status.innerHTML = '📋 Response (' + res.status + '): ' + text.substring(0, 400);
+  } catch(e) {
+    status.innerHTML = '❌ ' + e.name + ': ' + e.message;
+  }
+};
+
+/* ── Appwrite ── */
+const client    = new Appwrite.Client().setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
+const databases = new Appwrite.Databases(client);
+
+/* ── State ── */
+let selectedFile = null;
+let recentList   = JSON.parse(localStorage.getItem('mp_recent_uploads') || '[]');
+
+/* ── File Input ── */
+document.getElementById('fileInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+
+  if (file.size > 50 * 1024 * 1024) {
+    toast('File too large. Max 50MB', 'fa-triangle-exclamation');
+    return;
+  }
+
+  selectedFile = file;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('previewImg').src        = e.target.result;
+    document.getElementById('previewWrap').style.display = 'block';
+    document.getElementById('fileLabel').style.display   = 'none';
+    document.getElementById('changeBtn').style.display   = 'flex';
+  };
+  reader.readAsDataURL(file);
+  checkReady();
+});
+
+function removeImg() {
+  selectedFile = null;
+  document.getElementById('fileInput').value               = '';
+  document.getElementById('previewWrap').style.display = 'none';
+  document.getElementById('fileLabel').style.display   = '';
+  document.getElementById('changeBtn').style.display   = 'none';
+  checkReady();
+}
+
+/* ── Form Validation ── */
+function checkReady() {
+  const ok = selectedFile
+    && document.getElementById('wpTitle').value.trim()
+    && document.getElementById('wpCategory').value;
+  document.getElementById('uploadBtn').disabled = !ok;
+}
+
+document.getElementById('wpTitle').addEventListener('input', checkReady);
+document.getElementById('wpCategory').addEventListener('change', checkReady);
+
+/* ── Image Compression ── */
+function compressImage(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let width  = img.width;
+        let height = img.height;
+
+        // Max dimension 1920px
+        if (width > 1920) {
+          height = Math.round(height * 1920 / width);
+          width  = 1920;
+        }
+        if (height > 1920) {
+          width  = Math.round(width * 1920 / height);
+          height = 1920;
+        }
+
+        canvas.width  = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          blob => resolve(blob || file),
+          'image/jpeg',
+          0.85
+        );
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ── Upload ── */
+async function handleUpload() {
+  const title    = document.getElementById('wpTitle').value.trim();
+  const category = document.getElementById('wpCategory').value;
+  const res      = document.getElementById('wpResolution').value;
+  const tags     = document.getElementById('wpTags').value.trim() || category;
+  const isNew    = document.getElementById('wpIsNew').checked;
+
+  if (!selectedFile || !title || !category) {
+    toast('Please select an image and fill in title and category', 'fa-triangle-exclamation');
+    return;
+  }
+
+  // Reset messages
+  hide('successMsg');
+  hide('errorMsg');
+
+  document.getElementById('uploadBtn').disabled = true;
+  setProgress(10, 'Step 1 of 2: Uploading image...');
+
+  try {
+    /* ── Step 1: Upload original file to Cloudinary ── */
+    setProgress(10, 'Starting upload...');
+    const fd = new FormData();
+    fd.append('file',          selectedFile);
+    fd.append('upload_preset', CLOUDINARY_PRESET);
+
+    let publicId = '';
+    let thumbUrl = '';
+
+    try {
+      // Use XMLHttpRequest instead of fetch — more reliable on mobile
+      const cData = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
+        xhr.timeout = 120000; // 2 minutes timeout for large 4K files
+
+        xhr.onload = function() {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            if (data.error) reject(new Error('Cloudinary: ' + data.error.message));
+            else resolve(data);
+          } catch(e) {
+            reject(new Error('Cloudinary bad response: ' + xhr.responseText.substring(0, 100)));
+          }
+        };
+
+        xhr.onerror = function() {
+          reject(new Error('Network error reaching Cloudinary. Check your internet connection.'));
+        };
+
+        xhr.ontimeout = function() {
+          reject(new Error('Upload timed out. Your file may be too large for your current connection speed. Try a smaller file first.'));
+        };
+
+        xhr.upload.onprogress = function(e) {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 50);
+            setProgress(10 + pct, `Uploading... ${Math.round(e.loaded/1024/1024)}MB of ${Math.round(e.total/1024/1024)}MB`);
+          }
+        };
+
+        xhr.send(fd);
+      });
+
+      if (!cData.public_id) throw new Error('Cloudinary returned no image ID');
+      publicId = cData.public_id;
+      thumbUrl = cData.secure_url;
+
+    } catch(cErr) {
+      throw new Error(cErr.message);
+    }
+
+    setProgress(70, 'Step 2 of 2: Saving to database...');
+
+    /* ── Step 2: Appwrite ── */
+    try {
+      const doc = await databases.createDocument(
+        APPWRITE_DB_ID,
+        APPWRITE_COL_ID,
+        Appwrite.ID.unique(),
+        {
+          Title:          title,
+          Category:       category,
+          Tag:            tags,
+          Resolution:     res,
+          Cloudinary_url: publicId,
+          Thumbnail_url:  thumbUrl,
+          Views:          0,
+          Downloads:      0,
+          Likes:          0,
+          Downloads:      0,
+          Likes:          0,
+          Is_new:         isNew,
+        }
+      );
+
+      setProgress(100, 'Done!');
+
+      recentList.unshift({ id: doc.$id, title, category, res, thumb: thumbUrl });
+      if (recentList.length > 10) recentList.length = 10;
+      localStorage.setItem('mp_recent_uploads', JSON.stringify(recentList));
+
+      setTimeout(() => {
+        hideProgress();
+        show('successMsg');
+        toast('"' + title + '" is now live! 🎉', 'fa-check');
+        resetForm();
+        renderRecent();
+      }, 600);
+
+    } catch(dbErr) {
+      throw new Error('Database error: ' + (dbErr.message || JSON.stringify(dbErr)));
+    }
+
+  } catch(err) {
+    hideProgress();
+    document.getElementById('uploadBtn').disabled = false;
+    const el = document.getElementById('errorMsg');
+    el.innerHTML = '<i class="fas fa-triangle-exclamation"></i> ' + (err.message || 'Upload failed. Try again.');
+    show('errorMsg');
+    toast('Upload failed', 'fa-triangle-exclamation');
+    console.error(err);
+  }
+}
+
+/* ── Progress ── */
+function setProgress(pct, label) {
+  document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('progFill').style.width       = pct + '%';
+  document.getElementById('progLabel').textContent      = label;
+}
+function hideProgress() {
+  document.getElementById('progressWrap').style.display = 'none';
+}
+
+/* ── Reset ── */
+function resetForm() {
+  removeImg();
+  document.getElementById('wpTitle').value    = '';
+  document.getElementById('wpCategory').value = '';
+  document.getElementById('wpTags').value     = '';
+  document.getElementById('wpIsNew').checked  = false;
+  document.getElementById('uploadBtn').disabled = true;
+  setTimeout(() => hide('successMsg'), 5000);
+}
+
+/* ── Recent ── */
+function renderRecent() {
+  const el = document.getElementById('recentList');
+  if (!recentList.length) {
+    el.innerHTML = '<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:16px 0;">No uploads yet</div>';
+    return;
+  }
+  el.innerHTML = '';
+  recentList.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'recent-item';
+    div.innerHTML = `
+      <img src="${item.thumb}" alt="${item.title}">
+      <div style="flex:1;min-width:0;">
+        <div class="recent-item-name">${item.title}</div>
+        <div class="recent-item-sub">${item.category} · ${item.res}</div>
+      </div>
+      <span class="live-badge">✓ Live</span>
+    `;
+    div.onclick = () => location.href = `wallpaper.html?id=${item.id}`;
+    el.appendChild(div);
+  });
+}
+
+/* ── Helpers ── */
+function show(id) { document.getElementById(id).style.display = 'block'; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+
+function toast(msg, icon) {
+  icon = icon || 'fa-check';
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+  c.appendChild(t);
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 350); }, 3500);
+}
+
+/* ── Init ── */
+renderRecent();
+</script>
+</body>
+</html>

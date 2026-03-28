@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — MATPAPER</title>
+<meta name="description" content="Learn about MATPAPER — a free wallpaper platform for anime, manhwa, games and more in 4K HD quality.">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" onerror="this.style.display='none'">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"><i class="fas fa-house"></i> Home</a>
+    <a href="category.html?cat=hot"><i class="fas fa-fire"></i> Hot Wallpapers</a>
+    <a href="category.html?cat=desktop"><i class="fas fa-desktop"></i> Desktop</a>
+    <a href="category.html?cat=profile"><i class="fas fa-user-circle"></i> Profile Pics</a>
+    <a href="saved.html"><i class="fas fa-heart"></i> Saved</a>
+    <div class="sidebar-divider"></div>
+    <a href="about.html" class="active"><i class="fas fa-circle-info"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="privacy.html"><i class="fas fa-shield-halved"></i> Privacy</a>
+    <a href="terms.html"><i class="fas fa-file-lines"></i> Terms</a>
+    <a href="dmca.html"><i class="fas fa-copyright"></i> DMCA</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="location.href='saved.html'" title="Saved"><i class="fas fa-heart"></i></button>
+  </div>
+</header>
+
+<div class="page-wrap">
+<style>
+.about-page{max-width:680px;margin:0 auto;padding:32px 16px 80px;}
+.about-hero{text-align:center;margin-bottom:48px;}
+.about-logo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid rgba(124,58,237,0.4);margin:0 auto 16px;display:block;}
+.about-site-name{font-family:'Audiowide',sans-serif;font-size:28px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;}
+.about-tagline{font-size:16px;color:#8b7aa0;line-height:1.6;}
+.about-section{background:#160030;border:1px solid rgba(124,58,237,0.25);border-radius:20px;padding:24px;margin-bottom:20px;}
+.about-section-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8b7aa0;margin-bottom:14px;}
+.about-section p{font-size:15px;color:#b09cc5;line-height:1.7;margin-bottom:12px;}
+.about-section p:last-child{margin-bottom:0;}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+.feat-item{background:#1a003a;border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:16px;display:flex;align-items:flex-start;gap:12px;}
+.feat-icon{width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;color:#c084fc;}
+.feat-title{font-size:13px;font-weight:700;color:#f0e6ff;margin-bottom:4px;}
+.feat-sub{font-size:12px;color:#8b7aa0;}
+.stat-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+.stat-pill{background:#1a003a;border:1px solid rgba(0,229,195,0.2);border-radius:50px;padding:10px 20px;text-align:center;}
+.stat-pill-num{font-family:'Audiowide',sans-serif;font-size:20px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-pill-lbl{font-size:11px;color:#8b7aa0;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;}
+</style>
+
+<div class="about-page">
+  <div class="about-hero">
+    <img src="logo.png" alt="MATPAPER" class="about-logo" onerror="this.style.display='none'">
+    <div class="about-site-name">MATPAPER</div>
+    <div class="about-tagline">Your go-to destination for free, high-quality anime, manhwa and gaming wallpapers — built for fans, by fans.</div>
+  </div>
+
+  <div class="about-section">
+    <div class="about-section-title">Our Mission</div>
+    <p>MATPAPER was built to give anime and manga fans a single, clean, fast destination for wallpapers — no spam, no pop-ups, no paywalls.</p>
+    <p>Every wallpaper on this platform is handpicked, properly tagged, and optimized for your device — whether you're on mobile, desktop, or looking for a profile picture.</p>
+  </div>
+
+  <div class="about-section">
+    <div class="about-section-title">What We Offer</div>
+    <div class="feat-grid">
+      <div class="feat-item"><div class="feat-icon"><i class="fas fa-image"></i></div><div><div class="feat-title">4K Quality</div><div class="feat-sub">Ultra-sharp wallpapers for every screen</div></div></div>
+      <div class="feat-item"><div class="feat-icon"><i class="fas fa-mobile-alt"></i></div><div><div class="feat-title">Mobile Ready</div><div class="feat-sub">Optimized portrait wallpapers for phones</div></div></div>
+      <div class="feat-item"><div class="feat-icon"><i class="fas fa-desktop"></i></div><div><div class="feat-title">Desktop Walls</div><div class="feat-sub">Landscape wallpapers for PC & Mac</div></div></div>
+      <div class="feat-item"><div class="feat-icon"><i class="fas fa-user-circle"></i></div><div><div class="feat-title">Profile Pics</div><div class="feat-sub">Square & 1:1 for social media</div></div></div>
+      <div class="feat-item"><div class="feat-icon"><i class="fas fa-download"></i></div><div><div class="feat-title">Free Forever</div><div class="feat-sub">No account needed to download</div></div></div>
+      <div class="feat-item"><div class="feat-icon"><i class="fas fa-fire"></i></div><div><div class="feat-title">Always Fresh</div><div class="feat-sub">New wallpapers added regularly</div></div></div>
+    </div>
+  </div>
+
+  <div class="about-section">
+    <div class="about-section-title">Copyright & Content</div>
+    <p>Most wallpapers on MATPAPER are fan-made artwork or community edits of popular anime and manga series. We respect intellectual property rights and respond promptly to valid removal requests.</p>
+    <p>If you believe your copyrighted work has been posted without permission, please visit our <a href="dmca.html" style="color:#00e5c3;">DMCA page</a> to submit a removal request.</p>
+  </div>
+
+  <div class="about-section">
+    <div class="about-section-title">Contact & Support</div>
+    <p>Have a question, suggestion, or want to submit wallpapers? We'd love to hear from you.</p>
+    <a href="contact.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:linear-gradient(135deg,#7c3aed,#5b21b6);border-radius:12px;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;margin-top:4px;"><i class="fas fa-envelope"></i> Get in Touch</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">MATPAPER</div>
+    <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+    <a href="dmca.html">DMCA</a>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script>
+function openSidebar(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');document.body.style.overflow='';}
+</script>
+</body>
+</html>

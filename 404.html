@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found | MATPAPER</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="manifest" href="manifest.json">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;background:#07000f;color:#f0e6ff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);pointer-events:none;}
+.wrap{max-width:480px;position:relative;z-index:1;}
+.logo-img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(124,58,237,0.4);margin:0 auto 16px;display:block;}
+.logo-text{font-family:'Audiowide',sans-serif;font-size:18px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:40px;}
+.num{font-family:'Audiowide',sans-serif;font-size:96px;font-weight:700;background:linear-gradient(135deg,#7c3aed,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:16px;}
+.title{font-size:24px;font-weight:700;color:#f0e6ff;margin-bottom:10px;}
+.sub{font-size:15px;color:#8b7aa0;margin-bottom:36px;line-height:1.6;}
+.actions{display:flex;flex-direction:column;gap:12px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:14px;border:none;font-size:15px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+.btn-primary{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:white;box-shadow:0 4px 20px rgba(124,58,237,0.35);}
+.btn-secondary{background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);color:#c084fc;}
+.btn:hover{transform:translateY(-2px);}
+.icon-big{font-size:64px;margin-bottom:20px;opacity:0.3;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img src="logo.png" alt="MATPAPER" class="logo-img" onerror="this.style.display='none'">
+  <div class="logo-text">MATPAPER</div>
+  <i class="fas fa-image icon-big"></i>
+  <div class="num">404</div>
+  <div class="title">Page Not Found</div>
+  <div class="sub">The wallpaper or page you're looking for doesn't exist or has been moved.</div>
+  <div class="actions">
+    <a href="index.html" class="btn btn-primary"><i class="fas fa-house"></i> Back to Home</a>
+    <a href="category.html?cat=anime" class="btn btn-secondary"><i class="fas fa-images"></i> Browse Wallpapers</a>
+  </div>
+</div>
+</body>
+</html>

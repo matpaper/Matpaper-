@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search — MATPAPER</title>
+<meta name="description" content="Search for anime, manhwa and gaming wallpapers on MATPAPER.">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="category.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" onerror="this.style.display='none'">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"><i class="fas fa-house"></i> Home</a>
+    <a href="category.html?cat=hot"><i class="fas fa-fire"></i> Hot Wallpapers</a>
+    <a href="category.html?cat=desktop"><i class="fas fa-desktop"></i> Desktop</a>
+    <a href="saved.html"><i class="fas fa-heart"></i> Saved</a>
+    <div class="sidebar-divider"></div>
+    <a href="about.html"><i class="fas fa-circle-info"></i> About</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="location.href='saved.html'"><i class="fas fa-heart"></i></button>
+  </div>
+</header>
+<div class="page-wrap">
+
+<style>
+.search-page{max-width:800px;margin:0 auto;padding:24px 16px 80px;}
+.search-hdr{margin-bottom:24px;}
+.search-back{display:inline-flex;align-items:center;gap:6px;color:#8b7aa0;font-size:13px;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;cursor:pointer;background:none;border:none;padding:0;margin-bottom:16px;}
+.search-back:hover{color:#c084fc;}
+.search-heading{font-family:'Audiowide',sans-serif;font-size:18px;background:linear-gradient(135deg,#a855f7,#00e5c3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
+.search-sub{font-size:13px;color:#8b7aa0;}
+.search-bar{display:flex;gap:8px;margin-bottom:24px;}
+.search-bar input{flex:1;padding:13px 16px;background:#160030;border:1px solid rgba(124,58,237,0.3);border-radius:14px;color:#f0e6ff;font-size:15px;font-family:'Barlow',sans-serif;outline:none;}
+.search-bar input:focus{border-color:#00e5c3;}
+.search-bar button{padding:12px 18px;background:linear-gradient(135deg,#7c3aed,#5b21b6);border:none;border-radius:14px;color:white;font-size:16px;cursor:pointer;}
+.results-meta{font-size:13px;color:#8b7aa0;margin-bottom:16px;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.result-item{position:relative;border-radius:14px;overflow:hidden;background:#1a003a;border:1px solid rgba(124,58,237,0.2);cursor:pointer;transition:border-color 0.2s;}
+.result-item:hover{border-color:rgba(124,58,237,0.5);}
+.result-item img{width:100%;height:180px;object-fit:cover;display:block;}
+.result-item-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(7,0,15,0.9));padding:8px 10px 10px;}
+.result-item-title{font-size:12px;font-weight:600;color:#f0e6ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.result-res{position:absolute;top:8px;left:8px;background:rgba(7,0,15,0.75);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px;color:#c084fc;}
+.skeleton{background:linear-gradient(90deg,#160030 25%,#1a003a 50%,#160030 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:14px;height:180px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.popular-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.pop-tag{padding:7px 14px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:50px;font-size:13px;color:#c084fc;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:600;transition:all 0.2s;}
+.pop-tag:hover{background:rgba(124,58,237,0.2);}
+</style>
+
+<div class="search-page">
+  <div class="search-hdr">
+    <button class="search-back" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back</button>
+    <div class="search-heading">Search Wallpapers</div>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search anime, characters, styles..." onkeydown="if(event.key==='Enter')doSearch()">
+    <button onclick="doSearch()"><i class="fas fa-search"></i></button>
+  </div>
+
+  <div id="popularSection">
+    <div class="results-meta">Popular Searches</div>
+    <div class="popular-tags">
+      <span class="pop-tag" onclick="searchTag('Solo Leveling')">Solo Leveling</span>
+      <span class="pop-tag" onclick="searchTag('Gojo Satoru')">Gojo Satoru</span>
+      <span class="pop-tag" onclick="searchTag('Naruto')">Naruto</span>
+      <span class="pop-tag" onclick="searchTag('Dark AMOLED')">Dark AMOLED</span>
+      <span class="pop-tag" onclick="searchTag('Cyberpunk')">Cyberpunk</span>
+      <span class="pop-tag" onclick="searchTag('Anime 4K')">Anime 4K</span>
+      <span class="pop-tag" onclick="searchTag('Desktop')">Desktop</span>
+      <span class="pop-tag" onclick="searchTag('Profile')">Profile Pics</span>
+      <span class="pop-tag" onclick="searchTag('Abstract')">Abstract</span>
+      <span class="pop-tag" onclick="searchTag('Minimalist')">Minimalist</span>
+    </div>
+  </div>
+
+  <div id="resultsMeta" class="results-meta" style="display:none;"></div>
+  <div class="result-grid" id="resultGrid"></div>
+
+  <div class="grid-loader" id="gridLoader">
+    <div class="loader-ring"></div>
+    <span>Searching...</span>
+  </div>
+
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">MATPAPER</div>
+    <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+    <a href="dmca.html">DMCA</a>
+  </div>
+</footer>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+<script src="db.js"></script>
+<script>
+function openSidebar(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');document.body.style.overflow='';}
+
+var currentPage = 1;
+var totalPages  = 1;
+var currentQuery = '';
+var LIMIT = 20;
+
+window.addEventListener('load', function() {
+  var params = new URLSearchParams(window.location.search);
+  var q = params.get('q') || '';
+  if (q) {
+    document.getElementById('searchInput').value = q;
+    currentQuery = q;
+    doSearch();
+  }
+});
+
+function searchTag(tag) {
+  document.getElementById('searchInput').value = tag;
+  currentQuery = tag;
+  doSearch();
+}
+
+async function doSearch() {
+  var q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  currentQuery = q;
+  currentPage  = 1;
+  history.replaceState(null,'','search.html?q='+encodeURIComponent(q));
+  await runSearch();
+}
+
+async function runSearch() {
+  document.getElementById('popularSection').style.display = 'none';
+  document.getElementById('gridLoader').classList.add('active');
+  document.getElementById('resultGrid').innerHTML = '';
+  document.getElementById('resultsMeta').style.display = 'none';
+
+  try {
+    var offset = (currentPage - 1) * LIMIT;
+    var res = await DB.getWallpapers({ search: currentQuery, limit: LIMIT, offset: offset });
+    var docs = res.documents || [];
+    var total = res.total || 0;
+    totalPages = Math.max(1, Math.ceil(total / LIMIT));
+
+    document.getElementById('gridLoader').classList.remove('active');
+    document.getElementById('resultsMeta').style.display = 'block';
+    document.getElementById('resultsMeta').textContent = total === 0
+      ? 'No results for "' + currentQuery + '"'
+      : total + ' result' + (total !== 1 ? 's' : '') + ' for "' + currentQuery + '"';
+
+    var grid = document.getElementById('resultGrid');
+    if (!docs.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8b7aa0;"><i class="fas fa-search" style="font-size:40px;display:block;margin-bottom:12px;color:#4a3a5a;"></i>No wallpapers found. Try a different search.</div>';
+      return;
+    }
+    docs.forEach(function(doc,i){ grid.appendChild(makeCard(doc,i)); });
+    renderPagination();
+  } catch(e) {
+    document.getElementById('gridLoader').classList.remove('active');
+    document.getElementById('resultGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8b7aa0;">Search failed. Please try again.</div>';
+  }
+}
+
+function makeCard(doc, index) {
+  var id = doc.$id;
+  var title = doc.Title || 'Wallpaper';
+  var cat = doc.Category || 'anime';
+  var res = doc.Resolution || '4K';
+  var imgSrc = doc.Cloudinary_url
+    ? 'https://res.cloudinary.com/dd0zzul9w/image/upload/w_300,h_400,c_fill,q_auto,f_auto/' + doc.Cloudinary_url
+    : 'https://picsum.photos/seed/' + id + '/300/400';
+
+  var item = document.createElement('div');
+  item.className = 'result-item';
+  item.style.animationDelay = (index * 0.04) + 's';
+  item.innerHTML = '<span class="result-res">'+res+'</span><img src="'+imgSrc+'" alt="'+title+'" loading="lazy"><div class="result-item-overlay"><div class="result-item-title">'+title+'</div></div>';
+  item.addEventListener('click', function() {
+    location.href = 'wallpaper.html?id='+id+'&cat='+cat+'&title='+encodeURIComponent(title)+'&res='+res;
+  });
+  return item;
+}
+
+function renderPagination() {
+  var c = document.getElementById('pagination');
+  c.innerHTML = '';
+  if (totalPages <= 1) return;
+  var prev = document.createElement('button'); prev.className='page-btn'; prev.innerHTML='<i class="fas fa-chevron-left"></i>'; prev.disabled=currentPage===1; prev.onclick=function(){goToPage(currentPage-1);}; c.appendChild(prev);
+  for (var p = 1; p <= Math.min(totalPages,7); p++) {
+    var btn = document.createElement('button'); btn.className='page-btn'+(p===currentPage?' active':''); btn.textContent=p; (function(pp){btn.onclick=function(){goToPage(pp);};})(p); c.appendChild(btn);
+  }
+  var next = document.createElement('button'); next.className='page-btn'; next.innerHTML='<i class="fas fa-chevron-right"></i>'; next.disabled=currentPage===totalPages; next.onclick=function(){goToPage(currentPage+1);}; c.appendChild(next);
+}
+
+function goToPage(p) { if(p<1||p>totalPages)return; currentPage=p; runSearch(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+window.addEventListener('scroll',function(){var btn=document.getElementById('backTop');if(btn)btn.classList.toggle('visible',window.scrollY>300);});
+</script>
+</body>
+</html>

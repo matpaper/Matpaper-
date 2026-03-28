@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATPAPER — Wallpaper</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="wallpaper.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo-wrap">
+      <img src="logo.png" alt="MATPAPER" class="sidebar-logo-img" id="sidebarLogo" onclick="handleLogoTap()">
+      <div class="sidebar-logo">MATPAPER</div>
+    </div>
+    <button class="close-btn" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"><i class="fas fa-house"></i> Home</a>
+    <a href="category.html?cat=hot"><i class="fas fa-fire"></i> Hot Wallpapers</a>
+    <a href="category.html?cat=desktop"><i class="fas fa-desktop"></i> Desktop</a>
+    <a href="category.html?cat=profile"><i class="fas fa-user-circle"></i> Profile Pics</a>
+    <a href="category.html?cat=anime"><i class="fas fa-th-large"></i> Categories</a>
+    <div class="sidebar-divider"></div>
+    <a href="saved.html"><i class="fas fa-heart"></i> Saved</a>
+    <a href="saved.html#recent"><i class="fas fa-clock"></i> Recent</a>
+    <a href="#"><i class="fas fa-gear"></i> Settings</a>
+    <div class="sidebar-divider"></div>
+    <a href="index.html#about"><i class="fas fa-circle-info"></i> About</a>
+  </nav>
+  <div class="sidebar-footer">© 2026 MATPAPER</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+  <div class="logo">MATPAPER</div>
+  <div class="header-actions">
+    <button class="header-icon-btn" onclick="toggleFavPanel()" title="Favourites">
+      <i class="fas fa-heart"></i>
+    </button>
+    <button class="header-icon-btn" onclick="location.href='account.html'" title="Account">
+      <i class="fas fa-user-circle"></i>
+    </button>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- BACK + BREADCRUMB -->
+  <div class="wp-nav">
+    <button class="back-btn" onclick="history.back()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <a href="#" id="breadCat">Category</a>
+      <i class="fas fa-chevron-right"></i>
+      <span id="breadTitle">Wallpaper</span>
+    </div>
+  </div>
+
+  <!-- WALLPAPER DETAIL -->
+  <div class="wp-detail">
+
+    <!-- IMAGE PANEL -->
+    <div class="wp-image-panel">
+      <div class="wp-image-wrap" id="wpImageWrap">
+        <img id="wpImage" src="" alt="Wallpaper">
+        <div class="wp-image-overlay">
+          <button class="wp-zoom-btn" onclick="toggleZoom()">
+            <i class="fas fa-expand" id="zoomIcon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="wp-info-panel">
+
+      <!-- TITLE & CATEGORY -->
+      <div class="wp-header">
+        <h1 class="wp-title" id="wpTitle">Loading...</h1>
+        <div class="wp-category" id="wpCategory">
+          <i class="fas fa-tag"></i> <span id="wpCatText">Anime</span>
+        </div>
+      </div>
+
+      <!-- META STATS -->
+      <div class="wp-meta">
+        <div class="wp-meta-item">
+          <i class="fas fa-expand-arrows-alt"></i>
+          <div>
+            <div class="wp-meta-val" id="wpRes">4K</div>
+            <div class="wp-meta-key">Resolution</div>
+          </div>
+        </div>
+        <div class="wp-meta-item">
+          <i class="fas fa-eye"></i>
+          <div>
+            <div class="wp-meta-val" id="wpViews">0</div>
+            <div class="wp-meta-key">Views</div>
+          </div>
+        </div>
+        <div class="wp-meta-item">
+          <i class="fas fa-download"></i>
+          <div>
+            <div class="wp-meta-val" id="wpDownloads">0</div>
+            <div class="wp-meta-key">Downloads</div>
+          </div>
+        </div>
+        <div class="wp-meta-item">
+          <i class="fas fa-heart"></i>
+          <div>
+            <div class="wp-meta-val" id="wpLikes">0</div>
+            <div class="wp-meta-key">Likes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAG PILLS -->
+      <div class="wp-tags" id="wpTags"></div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="wp-actions">
+        <button class="wp-btn wp-btn-download" id="wpBtnDownload" onclick="wpDownload()">
+          <i class="fas fa-download"></i> Download
+        </button>
+        <button class="wp-btn wp-btn-like" id="wpBtnLike" onclick="wpLike()">
+          <i class="fas fa-heart"></i> Like
+        </button>
+        <button class="wp-btn wp-btn-save" id="wpBtnSave" onclick="wpSave()">
+          <i class="fas fa-bookmark"></i> Save
+        </button>
+        <button class="wp-btn wp-btn-share" onclick="wpShare()">
+          <i class="fas fa-share-alt"></i> Share
+        </button>
+      </div>
+
+      <!-- EXTRA ACTIONS -->
+      <div class="wp-extra-actions">
+        <button class="wp-extra-btn" id="mockupBtn" onclick="toggleMockup()">
+          <i class="fas fa-mobile-alt"></i> Phone Preview
+        </button>
+        <button class="wp-extra-btn" onclick="wpCopyLink()">
+          <i class="fas fa-copy"></i> Copy Link
+        </button>
+        <button class="wp-extra-btn report" onclick="wpReport()">
+          <i class="fas fa-flag"></i> Report
+        </button>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="wp-desc">
+        <div class="wp-desc-title">About this wallpaper</div>
+        <p class="wp-desc-text" id="wpDesc">A stunning high-resolution wallpaper.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RELATED WALLPAPERS -->
+  <div class="section" style="margin-top: 48px;">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> Related Wallpapers</div>
+      <a href="#" class="see-all" id="relatedSeeAll">See all <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <!-- RELATED TAG FILTERS -->
+    <div class="related-filters" id="relatedFilters"></div>
+
+    <!-- RELATED GRID -->
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo">MATPAPER</div>
+      <div class="footer-copy">© 2026 MATPAPER. All rights reserved.</div>
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+      <a href="dmca.html">DMCA</a>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Appwrite SDK -->
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2/dist/iife/sdk.min.js"></script>
+<script src="db.js"></script>
+<script src="wallpaper.js"></script>
+</body>
+</html>
